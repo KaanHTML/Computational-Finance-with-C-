@@ -6,7 +6,7 @@
 class PathDepOption
 {
 	public:
-		double T;
+		double T, Price, PricingError;
 		int m;
 		double PriceByMC(BSModel Model, long N);
 		virtual double Payoff(SamplePath& S) = 0;
@@ -20,5 +20,6 @@ class ArthmAsianCall: public PathDepOption
 			{T=T_; K=K_; m=m_;}
 		double Payoff(SamplePath& S); 
 };
+	
 
 #endif	

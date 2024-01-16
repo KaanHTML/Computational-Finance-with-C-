@@ -3,14 +3,17 @@
 
 double PathDepOption::PriceByMC(BSModel Model, long N)
 {
-	double H = 0.0;
+	double H = 0.0, Hsq = 0.0;
 	SamplePath S(m);
 	for(long i = 0; i < N; i++)
 	{
 		Model.GenerateSamplePath(T,m,S);
 		H = (i*H + Payoff(S))/(i+1.0);
+		Hsq = (i*Hsq + pow(Payoff(S), 2.0)) / (i+1.0);
 	}
-	return exp(-Model.r*T)*H;
+	Price = exp(-Model.r*T)*H;
+	PricingError = exp(-Model.r*T)*sqrt(Hsq-H*H) / sqrt(N-1.0); 
+	return Price;
 }
 
 double ArthmAsianCall::Payoff(SamplePath& S)
